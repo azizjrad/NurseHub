@@ -1,0 +1,1771 @@
+<!DOCTYPE html><html lang="en"><head><meta name="x-poe-datastore-behavior" content="local_only"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NurseHub - Home Care Appointments</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fdfaf6;
+            --bg-secondary: #f5ede4;
+            --bg-card: #ffffff;
+            --text-primary: #1a1814;
+            --text-secondary: #6b6559;
+            --text-muted: #9b9389;
+            --accent-primary: #d97757;
+            --accent-secondary: #8b5e3c;
+            --accent-tertiary: #c9a690;
+            --border-color: #e8dfd5;
+            --shadow-sm: 0 2px 8px rgba(139, 94, 60, 0.08);
+            --shadow-md: 0 4px 16px rgba(139, 94, 60, 0.12);
+            --shadow-lg: 0 8px 32px rgba(139, 94, 60, 0.16);
+            --success: #6b9b7a;
+            --warning: #d4a574;
+            --danger: #c97766;
+            --gradient-warm: linear-gradient(135deg, #d97757 0%, #c9a690 100%);
+        }
+
+        .dark {
+            --bg-primary: #1a1814;
+            --bg-secondary: #252219;
+            --bg-card: #2d2a24;
+            --text-primary: #fdfaf6;
+            --text-secondary: #c9beb1;
+            --text-muted: #8b7f73;
+            --border-color: #3d3831;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Instrument Serif', serif;
+            font-weight: 400;
+        }
+
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 2rem;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-warm);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.75rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .logo-text p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .view-toggle {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .toggle-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .toggle-btn.active {
+            background: var(--accent-primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .toggle-btn:hover:not(.active) {
+            background: var(--bg-card);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 3rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .view {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Client View */
+        .booking-hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .booking-hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .booking-hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .booking-form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group label i {
+            margin-right: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 4px rgba(217, 119, 87, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1.25rem;
+            background: var(--gradient-warm);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Dashboard View */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .dashboard-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .stat-card.pending .stat-icon {
+            background: rgba(212, 165, 116, 0.15);
+            color: var(--warning);
+        }
+
+        .stat-card.approved .stat-icon {
+            background: rgba(107, 155, 122, 0.15);
+            color: var(--success);
+        }
+
+        .stat-card.completed .stat-icon {
+            background: rgba(139, 94, 60, 0.15);
+            color: var(--accent-secondary);
+        }
+
+        .stat-card.cancelled .stat-icon {
+            background: rgba(201, 119, 102, 0.15);
+            color: var(--danger);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            font-family: 'Instrument Serif', serif;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .appointments-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-header h3 {
+            font-size: 1.75rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.65rem 1.25rem;
+            border: 2px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .appointments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .appointment-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.75rem;
+            transition: all 0.3s ease;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .appointment-card:hover {
+            border-color: var(--accent-tertiary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .appointment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.25rem;
+        }
+
+        .appointment-client {
+            flex: 1;
+        }
+
+        .client-name {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            font-family: 'Instrument Serif', serif;
+        }
+
+        .client-email {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge.pending {
+            background: rgba(212, 165, 116, 0.2);
+            color: var(--warning);
+        }
+
+        .status-badge.approved {
+            background: rgba(107, 155, 122, 0.2);
+            color: var(--success);
+        }
+
+        .status-badge.completed {
+            background: rgba(139, 94, 60, 0.2);
+            color: var(--accent-secondary);
+        }
+
+        .status-badge.cancelled {
+            background: rgba(201, 119, 102, 0.2);
+            color: var(--danger);
+        }
+
+        .appointment-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .detail-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-primary);
+            flex-shrink: 0;
+        }
+
+        .detail-content {
+            flex: 1;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .appointment-message {
+            background: var(--bg-card);
+            padding: 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 1.25rem;
+            border-left: 4px solid var(--accent-primary);
+        }
+
+        .appointment-message p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-approve {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-approve:hover {
+            background: #5a8367;
+            transform: translateY(-2px);
+        }
+
+        .btn-complete {
+            background: var(--accent-secondary);
+            color: white;
+        }
+
+        .btn-complete:hover {
+            background: #724d30;
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background: #b36656;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-delete:hover {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Success Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 3rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            animation: slideUp 0.4s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(107, 155, 122, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--success);
+            font-size: 2.5rem;
+        }
+
+        .modal-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-content p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .btn-close-modal {
+            padding: 1rem 2.5rem;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-close-modal:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Home Page */
+        .home-hero {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: var(--gradient-warm);
+            border-radius: 32px;
+            margin-bottom: 4rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .home-hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .home-hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .home-hero p {
+            font-size: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-cta {
+            padding: 1.25rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn-cta-primary {
+            background: white;
+            color: var(--accent-primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-cta-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 2px solid white;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
+        .features-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-tertiary);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-warm);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.25rem;
+            color: white;
+        }
+
+        .feature-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Instrument Serif', serif;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .about-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 4rem;
+            margin-bottom: 4rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about-content h3 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .about-text {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .credentials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .credential-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+        }
+
+        .credential-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .credential-text {
+            flex: 1;
+        }
+
+        .credential-text strong {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .credential-text span {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 2rem 2rem;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+            font-family: 'Instrument Serif', serif;
+        }
+
+        .footer-section p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .contact-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-primary);
+            flex-shrink: 0;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 44px;
+            height: 44px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.25rem;
+        }
+
+        .social-link:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 2rem;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-warm);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .footer-brand h4 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .home-hero {
+                padding: 3rem 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .home-hero h2 {
+                font-size: 2rem;
+            }
+
+            .home-hero p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn-cta {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-section {
+                padding: 2rem;
+            }
+
+            .credentials {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .header {
+                padding: 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .logo-text h1 {
+                font-size: 1.5rem;
+            }
+
+            .booking-hero h2 {
+                font-size: 2rem;
+            }
+
+            .booking-hero p {
+                font-size: 1rem;
+            }
+
+            .booking-form-container {
+                padding: 2rem;
+            }
+
+            .main-content {
+                padding: 2rem 1rem;
+            }
+
+            .dashboard-title h2 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .appointments-section {
+                padding: 1.5rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .appointment-details {
+                grid-template-columns: 1fr;
+            }
+
+            .appointment-actions {
+                flex-direction: column;
+            }
+
+            .btn-action {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+<script src="https://puc.poecdn.net/authenticated_preview_page/syncedState.3f7572448765332f3047.js"></script></head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>NurseHub</h1>
+                        <p>Professional Home Care</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="view-toggle">
+                        <button class="toggle-btn active" data-view="home">
+                            <i class="fas fa-home"></i> Home
+                        </button>
+                        <button class="toggle-btn" data-view="client">
+                            <i class="fas fa-calendar-plus"></i> Book
+                        </button>
+                        <button class="toggle-btn" data-view="nurse">
+                            <i class="fas fa-table"></i> Dashboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Home View -->
+            <div id="homeView" class="view active">
+                <div class="home-hero">
+                    <div class="home-hero-content">
+                        <h2>Compassionate Care, Right at Home</h2>
+                        <p>Experienced nursing professional providing quality healthcare services in the comfort and safety of your home.</p>
+                        <div class="cta-buttons">
+                            <button class="btn-cta btn-cta-primary" onclick="switchView('client')">
+                                <i class="fas fa-calendar-check"></i>
+                                Book Appointment
+                            </button>
+                            <button class="btn-cta btn-cta-secondary" onclick="document.getElementById('aboutSection').scrollIntoView({behavior: 'smooth'})">
+                                <i class="fas fa-info-circle"></i>
+                                Learn More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="features-section">
+                    <div class="section-title">
+                        <h3>Our Services</h3>
+                        <p>Comprehensive home healthcare tailored to your needs</p>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-nurse"></i>
+                            </div>
+                            <h4>Post-Surgery Care</h4>
+                            <p>Expert post-operative monitoring and recovery support to ensure a smooth healing process at home.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-syringe"></i>
+                            </div>
+                            <h4>Medication Management</h4>
+                            <p>Professional assistance with medication administration and monitoring for complex treatment plans.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-band-aid"></i>
+                            </div>
+                            <h4>Wound Care</h4>
+                            <p>Specialized wound dressing and care to promote healing and prevent infections.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <h4>Chronic Care</h4>
+                            <p>Ongoing support for managing chronic conditions like diabetes, hypertension, and heart disease.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-hand-holding-medical"></i>
+                            </div>
+                            <h4>Elder Care</h4>
+                            <p>Compassionate care for seniors with mobility issues, memory care, and daily living assistance.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-notes-medical"></i>
+                            </div>
+                            <h4>Health Assessments</h4>
+                            <p>Regular vital signs monitoring, health evaluations, and coordination with your healthcare team.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-section" id="aboutSection">
+                    <div class="about-content">
+                        <h3>About Your Nurse</h3>
+                        <p class="about-text">
+                            With over 15 years of experience in healthcare, I bring professional, compassionate nursing care directly to your home. I understand that recovering at home can provide comfort and familiarity that promotes healing and wellbeing.
+                        </p>
+                        <p class="about-text">
+                            My approach is centered on personalized care, treating each patient with dignity and respect while providing the highest quality medical services. I work closely with your physicians and healthcare team to ensure continuity of care and the best possible outcomes.
+                        </p>
+                        <p class="about-text">
+                            Whether you're recovering from surgery, managing a chronic condition, or need regular medical monitoring, I'm here to provide professional support in the comfort of your own home.
+                        </p>
+
+                        <div class="credentials">
+                            <div class="credential-item">
+                                <div class="credential-icon">
+                                    <i class="fas fa-certificate"></i>
+                                </div>
+                                <div class="credential-text">
+                                    <strong>Licensed RN</strong>
+                                    <span>State Board Certified</span>
+                                </div>
+                            </div>
+                            <div class="credential-item">
+                                <div class="credential-icon">
+                                    <i class="fas fa-award"></i>
+                                </div>
+                                <div class="credential-text">
+                                    <strong>15+ Years</strong>
+                                    <span>Professional Experience</span>
+                                </div>
+                            </div>
+                            <div class="credential-item">
+                                <div class="credential-icon">
+                                    <i class="fas fa-check-double"></i>
+                                </div>
+                                <div class="credential-text">
+                                    <strong>CPR Certified</strong>
+                                    <span>Advanced Life Support</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Client Booking View -->
+            <div id="clientView" class="view">
+                <div class="booking-hero">
+                    <h2>Schedule Your Home Visit</h2>
+                    <p>Professional nursing care in the comfort of your home. Fill out the form below and we'll get back to you shortly.</p>
+                </div>
+
+                <div class="booking-form-container">
+                    <form id="bookingForm">
+                        <div class="form-group">
+                            <label for="clientName">
+                                <i class="fas fa-user"></i> Full Name
+                            </label>
+                            <input type="text" id="clientName" class="form-input" required="" placeholder="John Doe">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="clientEmail">
+                                <i class="fas fa-envelope"></i> Email Address
+                            </label>
+                            <input type="email" id="clientEmail" class="form-input" required="" placeholder="john.doe@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="clientAddress">
+                                <i class="fas fa-map-marker-alt"></i> Home Address
+                            </label>
+                            <input type="text" id="clientAddress" class="form-input" required="" placeholder="123 Main Street, City, State, ZIP">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="consultationReason">
+                                <i class="fas fa-stethoscope"></i> Reason for Consultation
+                            </label>
+                            <input type="text" id="consultationReason" class="form-input" required="" placeholder="e.g., Post-surgery care, Wound dressing, Medication management">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="additionalMessage">
+                                <i class="fas fa-comment-medical"></i> Additional Information
+                            </label>
+                            <textarea id="additionalMessage" class="form-textarea" placeholder="Please provide any additional details that might be helpful for your home visit..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-paper-plane"></i> Request Appointment
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Nurse Dashboard View -->
+            <div id="nurseView" class="view">
+                <div class="dashboard-header">
+                    <div class="dashboard-title">
+                        <h2>Appointment Dashboard</h2>
+                        <p class="dashboard-subtitle">Manage your home visit schedule</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card pending">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-value" id="statPending">0</div>
+                        <div class="stat-label">Pending Requests</div>
+                    </div>
+
+                    <div class="stat-card approved">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-value" id="statApproved">0</div>
+                        <div class="stat-label">Approved Visits</div>
+                    </div>
+
+                    <div class="stat-card completed">
+                        <div class="stat-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div class="stat-value" id="statCompleted">0</div>
+                        <div class="stat-label">Completed Visits</div>
+                    </div>
+
+                    <div class="stat-card cancelled">
+                        <div class="stat-icon">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="stat-value" id="statCancelled">0</div>
+                        <div class="stat-label">Cancelled</div>
+                    </div>
+                </div>
+
+                <div class="appointments-section">
+                    <div class="section-header">
+                        <h3>All Appointments</h3>
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="pending">Pending</button>
+                            <button class="filter-btn" data-filter="approved">Approved</button>
+                            <button class="filter-btn" data-filter="completed">Completed</button>
+                            <button class="filter-btn" data-filter="cancelled">Cancelled</button>
+                        </div>
+                    </div>
+
+                    <div id="appointmentsList" class="appointments-list">
+                        <!-- Appointments will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h3>Request Submitted!</h3>
+            <p>Your appointment request has been received. We'll contact you shortly to confirm your home visit.</p>
+            <button class="btn-close-modal" onclick="closeModal()">Got it, thanks!</button>
+        </div>
+    </div>
+
+    <script>
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // Data Management
+        class AppointmentManager {
+            constructor() {
+                this.appointments = this.loadAppointments();
+                this.currentFilter = 'all';
+            }
+
+            loadAppointments() {
+                // Use in-memory storage for iframe environment
+                return this.appointments || [];
+            }
+
+            saveAppointments() {
+                // Data persists in memory during session
+                // For production, consider using IndexedDB or server-side storage
+            }
+
+            addAppointment(data) {
+                const appointment = {
+                    id: Date.now().toString(),
+                    name: data.name,
+                    email: data.email,
+                    address: data.address,
+                    reason: data.reason,
+                    message: data.message,
+                    status: 'pending',
+                    createdAt: new Date().toISOString()
+                };
+                this.appointments.unshift(appointment);
+                this.saveAppointments();
+                return appointment;
+            }
+
+            updateStatus(id, status) {
+                const appointment = this.appointments.find(a => a.id === id);
+                if (appointment) {
+                    appointment.status = status;
+                    this.saveAppointments();
+                    return true;
+                }
+                return false;
+            }
+
+            deleteAppointment(id) {
+                this.appointments = this.appointments.filter(a => a.id !== id);
+                this.saveAppointments();
+            }
+
+            getStatistics() {
+                return {
+                    pending: this.appointments.filter(a => a.status === 'pending').length,
+                    approved: this.appointments.filter(a => a.status === 'approved').length,
+                    completed: this.appointments.filter(a => a.status === 'completed').length,
+                    cancelled: this.appointments.filter(a => a.status === 'cancelled').length
+                };
+            }
+
+            getFilteredAppointments() {
+                if (this.currentFilter === 'all') {
+                    return this.appointments;
+                }
+                return this.appointments.filter(a => a.status === this.currentFilter);
+            }
+        }
+
+        const manager = new AppointmentManager();
+
+        // View Switching
+        const toggleButtons = document.querySelectorAll('.toggle-btn');
+        const views = document.querySelectorAll('.view');
+
+        toggleButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetView = btn.dataset.view;
+
+                toggleButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                views.forEach(v => v.classList.remove('active'));
+                document.getElementById(targetView + 'View').classList.add('active');
+
+                if (targetView === 'nurse') {
+                    updateDashboard();
+                }
+            });
+        });
+
+        // Booking Form Submission
+        const bookingForm = document.getElementById('bookingForm');
+        bookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const formData = {
+                name: document.getElementById('clientName').value,
+                email: document.getElementById('clientEmail').value,
+                address: document.getElementById('clientAddress').value,
+                reason: document.getElementById('consultationReason').value,
+                message: document.getElementById('additionalMessage').value
+            };
+
+            manager.addAppointment(formData);
+
+            // Show success modal
+            document.getElementById('successModal').classList.add('active');
+
+            // Reset form
+            bookingForm.reset();
+        });
+
+        function closeModal() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        // Dashboard Functions
+        function updateDashboard() {
+            updateStatistics();
+            renderAppointments();
+        }
+
+        function updateStatistics() {
+            const stats = manager.getStatistics();
+            document.getElementById('statPending').textContent = stats.pending;
+            document.getElementById('statApproved').textContent = stats.approved;
+            document.getElementById('statCompleted').textContent = stats.completed;
+            document.getElementById('statCancelled').textContent = stats.cancelled;
+        }
+
+        function renderAppointments() {
+            const container = document.getElementById('appointmentsList');
+            const appointments = manager.getFilteredAppointments();
+
+            if (appointments.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-calendar-times"></i>
+                        </div>
+                        <h3>No appointments found</h3>
+                        <p>There are no appointments matching your current filter.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = appointments.map(apt => {
+                const date = new Date(apt.createdAt);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                const formattedTime = date.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                let actions = '';
+                if (apt.status === 'pending') {
+                    actions = `
+                        <button class="btn-action btn-approve" onclick="updateAppointmentStatus('${apt.id}', 'approved')">
+                            <i class="fas fa-check"></i> Approve
+                        </button>
+                        <button class="btn-action btn-cancel" onclick="updateAppointmentStatus('${apt.id}', 'cancelled')">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    `;
+                } else if (apt.status === 'approved') {
+                    actions = `
+                        <button class="btn-action btn-complete" onclick="updateAppointmentStatus('${apt.id}', 'completed')">
+                            <i class="fas fa-clipboard-check"></i> Mark Complete
+                        </button>
+                        <button class="btn-action btn-cancel" onclick="updateAppointmentStatus('${apt.id}', 'cancelled')">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    `;
+                }
+
+                actions += `
+                    <button class="btn-action btn-delete" onclick="deleteAppointment('${apt.id}')">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                `;
+
+                return `
+                    <div class="appointment-card">
+                        <div class="appointment-header">
+                            <div class="appointment-client">
+                                <div class="client-name">${apt.name}</div>
+                                <div class="client-email">
+                                    <i class="fas fa-envelope"></i> ${apt.email}
+                                </div>
+                            </div>
+                            <span class="status-badge ${apt.status}">${apt.status}</span>
+                        </div>
+
+                        <div class="appointment-details">
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-label">Address</div>
+                                    <div class="detail-value">${apt.address}</div>
+                                </div>
+                            </div>
+
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-stethoscope"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-label">Reason</div>
+                                    <div class="detail-value">${apt.reason}</div>
+                                </div>
+                            </div>
+
+                            <div class="detail-item">
+                                <div class="detail-icon">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                                <div class="detail-content">
+                                    <div class="detail-label">Submitted</div>
+                                    <div class="detail-value">${formattedDate} at ${formattedTime}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        ${apt.message ? `
+                            <div class="appointment-message">
+                                <p><strong>Additional Information:</strong><br>${apt.message}</p>
+                            </div>
+                        ` : ''}
+
+                        <div class="appointment-actions">
+                            ${actions}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateAppointmentStatus(id, status) {
+            manager.updateStatus(id, status);
+            updateDashboard();
+        }
+
+        function deleteAppointment(id) {
+            showCustomConfirm(
+                'Are you sure you want to delete this appointment? This action cannot be undone.',
+                () => {
+                    manager.deleteAppointment(id);
+                    updateDashboard();
+                }
+            );
+        }
+
+        function showCustomConfirm(message, onConfirm) {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-icon" style="background: rgba(201, 119, 102, 0.15); color: var(--danger);">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3>Confirm Action</h3>
+                    <p>${message}</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <button class="btn-close-modal" style="background: var(--text-muted);" onclick="this.closest('.modal').remove()">Cancel</button>
+                        <button class="btn-close-modal" onclick="this.closest('.modal').remove(); (${onConfirm.toString()})()">Confirm</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Filter Buttons
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                manager.currentFilter = btn.dataset.filter;
+                renderAppointments();
+            });
+        });
+
+        // Initialize dashboard if on nurse view
+        updateDashboard();
+    </script>
+
+
+
+</body></html>
