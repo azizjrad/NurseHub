@@ -5,6 +5,8 @@ import { sendSMS, getAppointmentSMSMessage } from "@/lib/sms";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
+export const dynamic = 'force-dynamic';
+
 // GET - Fetch single appointment
 export async function GET(
   request: NextRequest,
