@@ -100,17 +100,16 @@ export default function Header({
           className="md:hidden w-10 h-10 flex items-center justify-center text-text-primary hover:bg-bg-secondary rounded-lg transition-all"
           aria-label="Toggle menu"
         >
-          <i className={`fas ${mobileMenuOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
+          <i
+            className={`fas ${mobileMenuOpen ? "fa-times" : "fa-bars"} text-xl`}
+          ></i>
         </button>
       </div>
 
       {/* Mobile Menu */}
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        }`}
-      >
-        <div className="px-4 py-4 bg-bg-secondary border-t border-border-color space-y-2">
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-bg-secondary border-t border-border-color">
+          <div className="px-4 py-4 space-y-2">
           {!showDashboard ? (
             <>
               <button
@@ -164,6 +163,7 @@ export default function Header({
           )}
         </div>
       </div>
+      )}
     </header>
   );
 }
