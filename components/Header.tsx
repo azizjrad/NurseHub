@@ -36,30 +36,39 @@ export default function Header({
 
         <div className="flex items-center gap-4">
           {!showDashboard ? (
-            <div className="bg-bg-secondary rounded-xl p-2 flex gap-2">
-              <button
-                onClick={() => onViewChange("home")}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-                  currentView === "home"
-                    ? "bg-accent-primary text-white shadow-sm"
-                    : "text-text-secondary hover:bg-bg-card"
-                }`}
+            <>
+              <div className="bg-bg-secondary rounded-xl p-2 flex gap-2">
+                <button
+                  onClick={() => onViewChange("home")}
+                  className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                    currentView === "home"
+                      ? "bg-accent-primary text-white shadow-sm"
+                      : "text-text-secondary hover:bg-bg-card"
+                  }`}
+                >
+                  <i className="fas fa-home me-2"></i>
+                  {t("home")}
+                </button>
+                <button
+                  onClick={() => onViewChange("booking")}
+                  className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                    currentView === "booking"
+                      ? "bg-accent-primary text-white shadow-sm"
+                      : "text-text-secondary hover:bg-bg-card"
+                  }`}
+                >
+                  <i className="fas fa-calendar-plus me-2"></i>
+                  {t("book")}
+                </button>
+              </div>
+              <Link
+                href="/admin/login"
+                className="px-6 py-3 bg-accent-primary text-white rounded-lg font-semibold hover:opacity-90 transition-all shadow-sm"
               >
-                <i className="fas fa-home me-2"></i>
-                {t("home")}
-              </button>
-              <button
-                onClick={() => onViewChange("booking")}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-                  currentView === "booking"
-                    ? "bg-accent-primary text-white shadow-sm"
-                    : "text-text-secondary hover:bg-bg-card"
-                }`}
-              >
-                <i className="fas fa-calendar-plus me-2"></i>
-                {t("book")}
-              </button>
-            </div>
+                <i className="fas fa-user-shield me-2"></i>
+                {t("dashboard") || "Dashboard"}
+              </Link>
+            </>
           ) : (
             <div className="flex items-center gap-4">
               <span className="text-text-secondary">
