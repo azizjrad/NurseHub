@@ -1,15 +1,3 @@
-import nodemailer from "nodemailer";
-
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_SERVER_HOST,
-  port: parseInt(process.env.EMAIL_SERVER_PORT || "587"),
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_SERVER_USER,
-    pass: process.env.EMAIL_SERVER_PASSWORD,
-  },
-});
-
 interface EmailOptions {
   to: string;
   subject: string;
@@ -18,12 +6,38 @@ interface EmailOptions {
 
 export async function sendEmail({ to, subject, html }: EmailOptions) {
   try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
-      to,
-      subject,
-      html,
+    const response = await fetch("https://api.sendgrid.com/v3/mail/send", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.EMAIL_SERVER_PASSWORD}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        personalizations: [
+          {
+            to: [{ email: to }],
+          },
+        ],
+        from: {
+          email: process.env.EMAIL_FROM?.match(/<(.+)>/)?.[1] || process.env.EMAIL_FROM,
+          name: "NurseHub",
+        },
+        subject,
+        content: [
+          {
+            type: "text/html",
+            value: html,
+          },
+        ],
+      }),
     });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("SendGrid API error:", error);
+      return { success: false, error };
+    }
+
     return { success: true };
   } catch (error) {
     console.error("Email sending failed:", error);
