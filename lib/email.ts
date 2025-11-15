@@ -19,7 +19,9 @@ export async function sendEmail({ to, subject, html }: EmailOptions) {
           },
         ],
         from: {
-          email: process.env.EMAIL_FROM?.match(/<(.+)>/)?.[1] || process.env.EMAIL_FROM,
+          email:
+            process.env.EMAIL_FROM?.match(/<(.+)>/)?.[1] ||
+            process.env.EMAIL_FROM,
           name: "NurseHub",
         },
         subject,
