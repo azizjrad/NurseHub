@@ -69,7 +69,7 @@ export default function AdminLogin() {
                   {...register("username")}
                   type="text"
                   className="w-full px-4 py-3 border-2 border-border-color rounded-xl bg-bg-primary focus:outline-none focus:border-accent-primary transition-colors"
-                  placeholder="eyachoukk"
+                  placeholder="Enter username"
                 />
                 {errors.username && (
                   <p className="text-danger text-sm mt-1">

@@ -110,59 +110,59 @@ export default function Header({
       {mobileMenuOpen && (
         <div className="md:hidden bg-bg-secondary border-t border-border-color">
           <div className="px-4 py-4 space-y-2">
-          {!showDashboard ? (
-            <>
-              <button
-                onClick={() => handleNavClick("home")}
-                className={`w-full px-6 py-3 rounded-lg font-semibold transition-all text-left ${
-                  currentView === "home"
-                    ? "bg-accent-primary text-white shadow-sm"
-                    : "bg-bg-card text-text-secondary hover:bg-bg-card"
-                }`}
-              >
-                <i className="fas fa-home me-2"></i>
-                {t("home")}
-              </button>
-              <button
-                onClick={() => handleNavClick("booking")}
-                className={`w-full px-6 py-3 rounded-lg font-semibold transition-all text-left ${
-                  currentView === "booking"
-                    ? "bg-accent-primary text-white shadow-sm"
-                    : "bg-bg-card text-text-secondary hover:bg-bg-card"
-                }`}
-              >
-                <i className="fas fa-calendar-plus me-2"></i>
-                {t("book")}
-              </button>
-              <Link
-                href="/admin/login"
-                className="block w-full px-6 py-3 bg-accent-primary text-white rounded-lg font-semibold hover:opacity-90 transition-all text-left"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <i className="fas fa-user-shield me-2"></i>
-                {t("dashboard") || "Dashboard"}
-              </Link>
-            </>
-          ) : (
-            <>
-              <div className="px-6 py-3 bg-bg-card rounded-lg text-text-secondary">
-                <i className="fas fa-user-circle me-2"></i>
-                {session?.user?.username || t("admin")}
-              </div>
-              <button
-                onClick={() => {
-                  signOut({ callbackUrl: "/" });
-                  setMobileMenuOpen(false);
-                }}
-                className="w-full px-6 py-3 bg-danger text-white rounded-lg font-semibold hover:opacity-90 transition-all text-left"
-              >
-                <i className="fas fa-sign-out-alt me-2"></i>
-                {t("logout")}
-              </button>
-            </>
-          )}
+            {!showDashboard ? (
+              <>
+                <button
+                  onClick={() => handleNavClick("home")}
+                  className={`w-full px-6 py-3 rounded-lg font-semibold transition-all text-left ${
+                    currentView === "home"
+                      ? "bg-accent-primary text-white shadow-sm"
+                      : "bg-bg-card text-text-secondary hover:bg-bg-card"
+                  }`}
+                >
+                  <i className="fas fa-home me-2"></i>
+                  {t("home")}
+                </button>
+                <button
+                  onClick={() => handleNavClick("booking")}
+                  className={`w-full px-6 py-3 rounded-lg font-semibold transition-all text-left ${
+                    currentView === "booking"
+                      ? "bg-accent-primary text-white shadow-sm"
+                      : "bg-bg-card text-text-secondary hover:bg-bg-card"
+                  }`}
+                >
+                  <i className="fas fa-calendar-plus me-2"></i>
+                  {t("book")}
+                </button>
+                <Link
+                  href="/admin/login"
+                  className="block w-full px-6 py-3 bg-accent-primary text-white rounded-lg font-semibold hover:opacity-90 transition-all text-left"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <i className="fas fa-user-shield me-2"></i>
+                  {t("dashboard") || "Dashboard"}
+                </Link>
+              </>
+            ) : (
+              <>
+                <div className="px-6 py-3 bg-bg-card rounded-lg text-text-secondary">
+                  <i className="fas fa-user-circle me-2"></i>
+                  {session?.user?.username || t("admin")}
+                </div>
+                <button
+                  onClick={() => {
+                    signOut({ callbackUrl: "/" });
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full px-6 py-3 bg-danger text-white rounded-lg font-semibold hover:opacity-90 transition-all text-left"
+                >
+                  <i className="fas fa-sign-out-alt me-2"></i>
+                  {t("logout")}
+                </button>
+              </>
+            )}
+          </div>
         </div>
-      </div>
       )}
     </header>
   );
